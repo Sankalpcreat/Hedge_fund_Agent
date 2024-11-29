@@ -1,5 +1,5 @@
 # Hedge Fund Trading Workflow with AI Agents
-This repository implements an AI-driven trading workflow that simulates a hedge fund's decision-making process. The system uses a sequence of specialized agents to analyze market data, generate trading signals, evaluate portfolio risks, and make final trading decisions. Built with LangChain, OpenAI's GPT-4, and Python, this system provides a structured and scalable framework for automated trading strategies.
+This repository provides an **AI-driven trading workflow** designed to emulate the decision-making processes of a hedge fund. It employs a series of specialized agents to analyze **market data**, generate **trading signals**, assess **portfolio risks**, and make informed trading decisions. Utilizing **LangChain**, **OpenAI's GPT-4**, and **Python**, this system offers a structured and scalable framework for implementing automated trading strategies.
 
 ## Architecture
 
@@ -10,61 +10,67 @@ Below is the architecture diagram for the project:
 # Features
 Market Data Analysis:
 
-Fetches historical price data.
-Calculates technical indicators like moving averages (SMA-5, SMA-20).
-Quantitative Signal Generation:
+- **Market Data Analysis**:
+  - Fetches historical price data.
+  - Calculates technical indicators like moving averages (SMA-5, SMA-20).
 
-Generates trading signals (bullish, bearish, neutral) using GPT-4.
-Risk Management:
+- **Quantitative Signal Generation**:
+  - Generates trading signals (bullish, bearish, neutral) using GPT-4.
 
-Evaluates portfolio exposure.
-Recommends position sizing (max_position_size) and risk score.
-Portfolio Management:
+- **Risk Management**:
+  - Evaluates portfolio exposure.
+  - Recommends position sizing (max_position_size) and risk score.
 
-Makes trading decisions (buy, sell, or hold) based on portfolio constraints and risk assessments.
-Backtesting Framework:
+- **Portfolio Management**:
+  - Makes trading decisions (buy, sell, or hold) based on portfolio constraints and risk assessments.
 
-Simulates trading performance over a historical date range.
-Calculates metrics such as total return, Sharpe ratio, and maximum drawdown.
+- **Backtesting Framework**:
+  - Simulates trading performance over a historical date range.
+  - Calculates metrics such as total return, Sharpe ratio, and maximum drawdown.
 
 # Technologies Used
 
-
-LangChain: For building agent workflows.
-OpenAI GPT-4: For intelligent analysis and decision-making.
-Python Libraries:
-pandas: For data handling.
-matplotlib: For performance visualization.
-datetime: For managing date ranges.
-requests: For API calls to fetch market data.
+- **LangChain**: For building agent workflows.
+- **OpenAI GPT-4**: For intelligent analysis and decision-making.
+- **Python Libraries**:
+  - **pandas**: For data handling.
+  - **matplotlib**: For performance visualization.
+  - **datetime**: For managing date ranges.
+  - **requests**: For API calls to fetch market data.
 
 # Workflow Architecture
 
-Agents in the Workflow
-Market Data Agent:
+## Agents in the Workflow
 
-Gathers historical data and calculates technical indicators.
-Quant Agent:
+**Market Data Agent**: 
+- Gathers historical data and calculates technical indicators.
 
-Analyzes the technical indicators to generate trading signals.
-Risk Management Agent:
+**Quant Agent**: 
+- Analyzes the technical indicators to generate trading signals.
 
-Evaluates portfolio risk and provides recommendations for position sizing.
-Portfolio Management Agent:
+**Risk Management Agent**: 
+- Evaluates portfolio risk and provides recommendations for position sizing.
 
-Makes final trading decisions, ensuring they align with portfolio constraints.
+**Portfolio Management Agent**: 
+- Makes final trading decisions, ensuring they align with portfolio constraints.
 
 # Execution Flow
 
-Input:
+**Input:**
 
-Stock ticker, date range, and portfolio state (cash and stock holdings).
-Workflow:
+- **Stock Ticker**: The symbol representing the stock.
+- **Date Range**: The period for historical data analysis.
+- **Portfolio State**: Current cash balance and stock holdings.
 
-Market Data Agent → Quant Agent → Risk Management Agent → Portfolio Management Agent.
-Output:
+**Workflow:**
 
-Final trading decision (action: buy, sell, or hold; quantity: number of shares).
+- **Market Data Agent**: → **Quant Agent** → **Risk Management Agent** → **Portfolio Management Agent**
+
+**Output:**
+
+- **Final Trading Decision**: 
+  - **Action**: Buy, Sell, or Hold
+  - **Quantity**: Number of shares
 
 # Setup
 
@@ -81,17 +87,21 @@ Final trading decision (action: buy, sell, or hold; quantity: number of shares).
 ```bash
 git clone https://github.com/your-username/hedge-fund-ai-workflow.git
 cd hedge-fund-ai-workflow
+```
 
-Step 2: Create a Virtual Environment
+### Step 2: Create a Virtual Environment
+```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-Step 3: Install Dependencies
-Install Dependencies
+### Step 3: Install Dependencies
+```bash
 pip install -r requirements.txt
+```
 
-Step 4: Set Environment Variables
-bash
+### Step 4: Set Environment Variables
+```bash
 export OPENAI_API_KEY="your_openai_api_key"
 export FINANCIAL_DATASETS_API_KEY="your_financial_data_api_key"
-
+```
