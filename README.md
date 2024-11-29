@@ -85,8 +85,8 @@ Market Data Analysis:
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/your-username/hedge-fund-ai-workflow.git
-cd hedge-fund-ai-workflow
+git clone https://github.com/Sankalpcreat/Hedge_fund_Agent.git
+cd Hedge_fund_Agent
 ```
 
 ### Step 2: Create a Virtual Environment
