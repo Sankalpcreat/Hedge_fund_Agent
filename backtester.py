@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import timedelta
 import json
 import matplotlib.pyplot as plt
+from utils import get_price_data
 
 class Backtester:
     def __init__(self, agent, ticker, start_date, end_date, initial_capital):
@@ -12,6 +13,8 @@ class Backtester:
         self.initial_capital = initial_capital
         self.portfolio = {"cash": initial_capital, "stocks": 0}
         self.portfolio_values = []
+        # Cache the price data for the entire period
+        self.price_data = get_price_data(ticker, start_date, end_date)
 
     def parse_action(self, agent_output):
         try:
@@ -39,47 +42,59 @@ class Backtester:
                 self.portfolio["cash"] += quantity * current_price
                 self.portfolio["stocks"] -= quantity
                 return quantity
-            return 0
         return 0
 
     def run_backtest(self):
-        dates = pd.date_range(self.start_date, self.end_date, freq="B")
         print("\nStarting backtest...")
-        print(f"{'Date':<12} {'Action':<6} {'Quantity':>8} {'Price':>8} {'Cash':>12} {'Stock':>8} {'Total Value':>12}")
-        print("-" * 70)
+        print("Date         Action Quantity    Price         Cash    Stock  Total Value")
+        print("----------------------------------------------------------------------")
+
+        dates = pd.date_range(start=self.start_date, end=self.end_date)
         for current_date in dates:
-            lookback_start = (current_date - timedelta(days=30)).strftime("%Y-%m-%d")
             current_date_str = current_date.strftime("%Y-%m-%d")
+            
+            # Get last 5 days of data for analysis (shorter lookback)
+            lookback_start = (current_date - timedelta(days=5)).strftime("%Y-%m-%d")
+            df = self.price_data[self.price_data['timestamp'] <= current_date_str].tail(5)
+            
+            if df.empty:
+                continue
+                
+            current_price = df.iloc[-1]['price']
+            if pd.isna(current_price):
+                continue
+
             agent_output = self.agent(
                 ticker=self.ticker,
                 start_date=lookback_start,
                 end_date=current_date_str,
                 portfolio=self.portfolio
             )
+            
             action, quantity = self.parse_action(agent_output)
-            df = get_price_data(self.ticker, lookback_start, current_date_str)
-            current_price = df.iloc[-1]['close']
             executed_quantity = self.execute_trade(action, quantity, current_price)
             total_value = self.portfolio["cash"] + self.portfolio["stocks"] * current_price
             self.portfolio["portfolio_value"] = total_value
+            
             print(f"{current_date.strftime('%Y-%m-%d'):<12} {action:<6} {executed_quantity:>8} {current_price:>8.2f} {self.portfolio['cash']:>12.2f} {self.portfolio['stocks']:>8} {total_value:>12.2f}")
             self.portfolio_values.append({"Date": current_date, "Portfolio Value": total_value})
 
     def analyze_performance(self):
-        performance_df = pd.DataFrame(self.portfolio_values).set_index("Date")
-        total_return = (self.portfolio["portfolio_value"] - self.initial_capital) / self.initial_capital
-        print(f"Total Return: {total_return * 100:.2f}%")
-        performance_df["Portfolio Value"].plot(title="Portfolio Value Over Time", figsize=(12, 6))
-        plt.ylabel("Portfolio Value ($)")
+        if not self.portfolio_values:
+            return pd.DataFrame()
+            
+        df = pd.DataFrame(self.portfolio_values)
+        df.set_index("Date", inplace=True)
+        
+        # Plot the portfolio value over time
+        plt.figure(figsize=(10, 6))
+        plt.plot(df.index, df["Portfolio Value"])
+        plt.title("Portfolio Value Over Time")
         plt.xlabel("Date")
-        plt.show()
-        performance_df["Daily Return"] = performance_df["Portfolio Value"].pct_change()
-        mean_daily_return = performance_df["Daily Return"].mean()
-        std_daily_return = performance_df["Daily Return"].std()
-        sharpe_ratio = (mean_daily_return / std_daily_return) * (252 ** 0.5)
-        print(f"Sharpe Ratio: {sharpe_ratio:.2f}")
-        rolling_max = performance_df["Portfolio Value"].cummax()
-        drawdown = performance_df["Portfolio Value"] / rolling_max - 1
-        max_drawdown = drawdown.min()
-        print(f"Maximum Drawdown: {max_drawdown * 100:.2f}%")
-        return performance_df
+        plt.ylabel("Portfolio Value ($)")
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.savefig("portfolio_performance.png")
+        plt.close()
+        
+        return df

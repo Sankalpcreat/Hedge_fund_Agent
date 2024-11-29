@@ -3,8 +3,8 @@ from workflow import run_agent
 import pandas as pd
 
 ticker="AAPL"
-start_date="2024-01-01"
-end_date="2024-12-31"
+start_date="2024-03-01"
+end_date="2024-03-10"
 initial_capital=10000
 
 backtester=Backtester(

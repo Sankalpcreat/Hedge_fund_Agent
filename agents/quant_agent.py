@@ -1,9 +1,14 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # Load environment variables from .env file
+
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_openai.chat_models import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4o")
+llm = ChatOpenAI(model="gpt-4")
 
 def quant_agent(state: dict):
     last_message = state["messages"][-1]
@@ -40,5 +45,3 @@ def quant_agent(state: dict):
     name="quant_agent",
     )
     return {"messages":state["messages"]+[message]}
-
-    
