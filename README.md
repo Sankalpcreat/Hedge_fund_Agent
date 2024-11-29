@@ -1,6 +1,11 @@
 # Hedge Fund Trading Workflow with AI Agents
 This repository implements an AI-driven trading workflow that simulates a hedge fund's decision-making process. The system uses a sequence of specialized agents to analyze market data, generate trading signals, evaluate portfolio risks, and make final trading decisions. Built with LangChain, OpenAI's GPT-4, and Python, this system provides a structured and scalable framework for automated trading strategies.
 
+## Architecture
+
+Below is the architecture diagram for the project:
+
+![Architecture Overview](./screen.png)
 
 # Features
 Market Data Analysis:
