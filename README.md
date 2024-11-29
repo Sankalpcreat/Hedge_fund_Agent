@@ -61,34 +61,32 @@ Output:
 
 Final trading decision (action: buy, sell, or hold; quantity: number of shares).
 
-Setup
-Requirements
-Python 3.8 or higher
-Virtual Environment
-API keys:
-OpenAI API Key
-Financial Data API Key (e.g., from FinancialDatasets.ai)
-Installation
-Clone the repository:
+# Setup
 
-bash
-Copy code
+## Requirements
+- Python 3.8 or higher
+- Virtual Environment
+- API keys:
+  - OpenAI API Key
+  - Financial Data API Key (e.g., from [FinancialDatasets.ai](https://financialdatasets.ai/))
+
+## Installation
+
+### Step 1: Clone the Repository
+```bash
 git clone https://github.com/your-username/hedge-fund-ai-workflow.git
 cd hedge-fund-ai-workflow
-Create a virtual environment:
 
-bash
-Copy code
+Step 2: Create a Virtual Environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-Install dependencies:
 
-bash
-Copy code
+Step 3: Install Dependencies
+Install Dependencies
 pip install -r requirements.txt
-Set environment variables:
 
+Step 4: Set Environment Variables
 bash
-Copy code
 export OPENAI_API_KEY="your_openai_api_key"
 export FINANCIAL_DATASETS_API_KEY="your_financial_data_api_key"
+
